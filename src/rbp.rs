@@ -4,6 +4,9 @@
 
 extern crate ncurses;
 
+use ncurses::*;
+use ncurses::CURSOR_VISIBILITY::*;
+
 use std::path::*;
 use std::process::*;
 
@@ -16,9 +19,6 @@ use std::*;
 use rand::rngs::*;
 use rand::*;
 
-use ncurses::*;
-use ncurses::CURSOR_VISIBILITY::*;
-
 // Prompts the user for input and returns it as a string.
 pub fn input(prompt: &str) -> String {
     print!("\n{}\n> ", prompt);
@@ -29,7 +29,6 @@ pub fn input(prompt: &str) -> String {
 }
 
 // Clears the terminal window on SOME terminal emulators.
-// e.g. does not work with the Intellij terminal.
 pub fn cls() {
     print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
 }
