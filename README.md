@@ -1,10 +1,10 @@
-# CLI-Utils
+# Rust Boilerplate
 
 Everything I wished was in the standard library.
 
 <img src="menu.png" width="100%" height="auto" />
 
-## General utils
+## Terminal helpers
 
 ```
 input(prompt: &str) -> String
@@ -26,9 +26,13 @@ unix_shell(x: &str)
 
 Executes slices as unix shell commands.
 
-Some shell commands will not work on all terminal emulators. (e.g. "clear" in the Intellij terminal).
+- This function will not work on Windows.
 
-Compound shell commands will not work properly (e.g. commands using the "&&" operator).
+- Some shell commands will not work on all terminal emulators. (e.g. "clear" in the Intellij terminal).
+
+- Compound shell commands will not work properly (e.g. commands using the "&&" operator).
+
+## Random numbers
 
 ```
 seed()
@@ -42,7 +46,7 @@ pseudo(x: i32, y: i32) -> i32
 
 Generates a pseudo-random number between x and y.
 
-## String utils
+## Strings and chars
 
 ```
 vec_of_strings!
@@ -170,7 +174,7 @@ replace_line_at(x: &str, y: &str, z: usize) -> String
 
 Replaces a line at the nth position (zero indexed) of a slice and returns that as a string.
 
-## File IO utils
+## File IO
 
 ```
 file_write(path: &str, data: &str)
@@ -208,7 +212,9 @@ append_from_vector(v: Vec<String>, path: &str)
 
 Appends data from a vector of strings to a file.
 
-## Virtual terminal utils
+## Virtual terminal
+
+- These functions will not work on Windows.
 
 - Only ASCII characters will be displayed correctly in the virtual terminal.
 
