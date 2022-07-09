@@ -1,6 +1,6 @@
 # CLI-Utils
 
-Helper functions for command line apps.
+Everything I wished was in the standard library.
 
 <img src="menu.png" width="100%" height="auto" />
 
