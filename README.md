@@ -1,10 +1,10 @@
-# Rust Boilerplate
+# CLI-Utils
 
-Everything I wished was in the standard library.
+Helper functions for command line apps.
 
 <img src="menu.png" width="100%" height="auto" />
 
-## Terminal helpers
+## General utils
 
 ```
 input(prompt: &str) -> String
@@ -30,8 +30,6 @@ Some shell commands will not work on all terminal emulators. (e.g. "clear" in th
 
 Compound shell commands will not work properly (e.g. commands using the "&&" operator).
 
-## Random numbers
-
 ```
 seed()
 ```
@@ -44,7 +42,7 @@ pseudo(x: i32, y: i32) -> i32
 
 Generates a pseudo-random number between x and y.
 
-## Strings and chars
+## String utils
 
 ```
 vec_of_strings!
@@ -172,7 +170,7 @@ replace_line_at(x: &str, y: &str, z: usize) -> String
 
 Replaces a line at the nth position (zero indexed) of a slice and returns that as a string.
 
-## File IO
+## File IO utils
 
 ```
 file_write(path: &str, data: &str)
@@ -210,7 +208,7 @@ append_from_vector(v: Vec<String>, path: &str)
 
 Appends data from a vector of strings to a file.
 
-## Virtual terminal
+## Virtual terminal utils
 
 - Only ASCII characters will be displayed correctly in the virtual terminal.
 
