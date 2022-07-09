@@ -1,6 +1,6 @@
 # Rust Boilerplate
 
-Everything I wished was in the standard library.
+MacOS boilerplate for Rust.
 
 <img src="menu.png" width="100%" height="auto" />
 
@@ -25,8 +25,6 @@ unix_shell(x: &str)
 ```
 
 Executes slices as unix shell commands.
-
-- This function will not work on Windows.
 
 - Some shell commands will not work on all terminal emulators. (e.g. "clear" in the Intellij terminal).
 
