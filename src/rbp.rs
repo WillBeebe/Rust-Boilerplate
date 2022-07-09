@@ -35,12 +35,6 @@ pub fn cls() {
 }
 
 // Executes slices as unix shell commands.
-
-// Some shell commands will NOT work on all terminal emulators 
-// e.g. "clear" in the Intellij terminal.
-
-// Compound shell commands will NOT work properly
-// e.g. commands using the "&&" operator.
 pub fn unix_shell(x: &str) {
     let mut commands = x.trim().split(" | ").peekable();
     let mut previous_command = None;
