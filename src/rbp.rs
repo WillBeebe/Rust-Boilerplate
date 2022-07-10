@@ -422,7 +422,7 @@ pub fn vt_open() {
     keypad(stdscr(), true);
 }
 
-// Displays a slice, then closes the virtual terminal on a use key press.
+// Displays a message, then closes the virtual terminal on the next user key press.
 pub fn vt_close(x:&str) {
     addstr(x);
     getch();
