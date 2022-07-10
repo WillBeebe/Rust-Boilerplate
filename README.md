@@ -59,13 +59,7 @@ nth_char(x: &str, n: usize) -> char
 Returns the nth char (zero indexed) from a slice.
 
 ```
-replace_nth_char(x: &mut String, y: usize, z: char) -> String
-```
-
-Replaces the char at position y, in string x, with char z and returns the result.
-
-```
-is_digit_slice(x: &str) -> bool
+is_digits(x: &str) -> bool
 ```
 
 Checks if a slice consists only of digits.
@@ -175,7 +169,7 @@ Replaces a line at the nth position (zero indexed) of a slice and returns that a
 ## File IO
 
 ```
-file_write(path: &str, data: &str)
+write_to_file(path: &str, data: &str)
 ```
 
 Writes data to a file.
@@ -187,7 +181,7 @@ file_exists(path: &str) -> bool
 Returns true if the file path exists.
 
 ```
-file_append(path: &str, data: &str)
+append_to_file(path: &str, data: &str)
 ```
 
 Appends data to a file.
@@ -301,3 +295,15 @@ vt_menu(menu:&mut Vec<String>) -> usize
 ```
 
 Returns a usize integer based on the user's selection from a menu.
+
+```
+vt_render_prompt(prompt:&str, buffer:&mut String, pos:usize)
+```
+
+A helper function called by vt_edit_prompt.
+
+```
+vt_edit_prompt(prompt:&str, buffer:&mut String, max:usize) -> String
+```
+
+Displays a prompt to the user with an existing buffer, which can be edited to return a new buffer.
