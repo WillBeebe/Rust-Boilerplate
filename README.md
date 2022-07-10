@@ -222,7 +222,7 @@ Opens the virtual terminal.
 vt_close(x: &str)
 ```
 
-Displays a slice, then closes the virtual terminal on a use key press.
+Displays a message, then closes the virtual terminal on the next user key press.
 
 ```
 vt_cursor_off()
