@@ -472,33 +472,18 @@ pub fn vt_cls() {
     ncurses::clear();
 }
 
-// Obtains user input as a string with no more than x chars.
-pub fn vt_input(x: i32) -> String {
-    vt_keypress_on();
-    let mut y = String::new();
-    ncurses::getnstr(&mut y, x);
-    return y;
-}
-
 // Obtains an i32 integer from a virtual terminal key press.
 pub fn vt_key_i32() -> i32 {
     let ch = ncurses::getch();
     return ch;
 }
 
-// Obtains a u8 from a virtual terminal key press.
-pub fn vt_key_u8() -> u8 {
-    let ch = ncurses::getch();
-    let ch_u8 = ch as u8;
-    return ch_u8;
-}
-
-// Obtains a char from a virtual terminal key press.
-pub fn vt_key_char() -> char {
-    let ch = ncurses::getch();
-    let ch_u8 = ch as u8;
-    let ch_char = ch_u8 as char;
-    return ch_char;
+// Obtains user input as a string with no more than x chars.
+pub fn vt_input(x: i32) -> String {
+    vt_keypress_on();
+    let mut y = String::new();
+    ncurses::getnstr(&mut y, x);
+    return y;
 }
 
 // Displays a slice in the virtual terminal.
