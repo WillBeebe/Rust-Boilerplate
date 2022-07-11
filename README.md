@@ -255,28 +255,16 @@ vt_cls()
 Clears the virtual terminal.
 
 ```
-vt_input(x: i32) -> String
-```
-
-Obtains user input as a string with no more than x chars.
-
-```
 vt_key_i32() -> i32
 ```
 
 Obtains an i32 integer from a virtual terminal key press.
 
 ```
-vt_key_u8() -> u8
+vt_input(x: i32) -> String
 ```
 
-Obtains a u8 integer from a virtual terminal key press.
-
-```
-vt_key_char() -> char
-```
-
-Obtains a char from a virtual terminal key press.
+Obtains user input as a string with no more than x chars.
 
 ```
 vt_put_slice(x: &str)
