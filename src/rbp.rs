@@ -462,6 +462,7 @@ pub fn vt_cls() { clear(); }
 
 // Obtains user input as a string with no more than x chars.
 pub fn vt_input(x: i32) -> String {
+    vt_keypress_on();
     let mut y = String::new();
     getnstr(&mut y, x);
     return y;
