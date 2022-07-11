@@ -4,27 +4,16 @@
 
 extern crate ncurses;
 
-use ncurses::*;
-use ncurses::CURSOR_VISIBILITY::*;
-
-use std::path::*;
-use std::process::*;
-
-use std::fs::*;
-use std::io::*;
-
-use std::time::*;
-use std::*;
-
-use rand::rngs::*;
-use rand::*;
+use rand::rngs::StdRng;
+use rand::{Rng, SeedableRng};
+use std::io::Write;
 
 // Prompts the user for input and returns it as a string.
-pub fn input(prompt:&str) -> String {
+pub fn input(prompt: &str) -> String {
     print!("\n{}\n> ", prompt);
-    stdout().flush().unwrap();
+    std::io::stdout().flush().unwrap();
     let mut answer = String::new();
-    stdin().read_line(&mut answer).unwrap();
+    std::io::stdin().read_line(&mut answer).unwrap();
     return answer;
 }
 
@@ -34,7 +23,7 @@ pub fn cls() {
 }
 
 // Executes slices as unix shell commands.
-pub fn unix_shell(x:&str) {
+pub fn unix_shell(x: &str) {
     let mut commands = x.trim().split(" | ").peekable();
     let mut previous_command = None;
 
@@ -46,8 +35,8 @@ pub fn unix_shell(x:&str) {
         match command {
             "cd" => {
                 let new_dir = args.peekable().peek().map_or("/", |x| *x);
-                let root = Path::new(new_dir);
-                if let Err(e) = env::set_current_dir(&root) {
+                let root = std::path::Path::new(new_dir);
+                if let Err(e) = std::env::set_current_dir(&root) {
                     eprintln!("{}", e);
                 }
 
@@ -55,17 +44,18 @@ pub fn unix_shell(x:&str) {
             }
             "exit" => return,
             command => {
-                let stdin = previous_command.map_or(Stdio::inherit(), |output: Child| {
-                    Stdio::from(output.stdout.unwrap())
-                });
+                let stdin = previous_command.map_or(
+                    std::process::Stdio::inherit(),
+                    |output: std::process::Child| std::process::Stdio::from(output.stdout.unwrap()),
+                );
 
                 let stdout = if commands.peek().is_some() {
-                    Stdio::piped()
+                    std::process::Stdio::piped()
                 } else {
-                    Stdio::inherit()
+                    std::process::Stdio::inherit()
                 };
 
-                let output = Command::new(command)
+                let output = std::process::Command::new(command)
                     .args(args)
                     .stdin(stdin)
                     .stdout(stdout)
@@ -90,15 +80,15 @@ pub fn unix_shell(x:&str) {
 
 // Seeds the pseudo-random number generator with unix time.
 pub fn seed() {
-    let d = SystemTime::now()
-        .duration_since(SystemTime::UNIX_EPOCH)
+    let d = std::time::SystemTime::now()
+        .duration_since(std::time::SystemTime::UNIX_EPOCH)
         .unwrap();
     let _rng = StdRng::seed_from_u64(d.as_secs());
 }
 
 // Generates a pseudo-random number between x and y.
-pub fn pseudo(x:i32, y:i32) -> i32 {
-    return thread_rng().gen_range(x..y + 1);
+pub fn pseudo(x: i32, y: i32) -> i32 {
+    return rand::thread_rng().gen_range(x..y + 1);
 }
 
 // A macro to initialise a vector of strings.
@@ -107,64 +97,76 @@ macro_rules! vec_of_strings {
 }
 
 // Returns the nth char (zero indexed) from a slice.
-pub fn nth_char(x:&str, n:usize) -> char {
+pub fn nth_char(x: &str, n: usize) -> char {
     return x.chars().nth(n).unwrap();
 }
 
 // Checks if a slice consists only of digits.
-pub fn is_digits(x:&str) -> bool {
+pub fn is_digits(x: &str) -> bool {
     return x.chars().all(char::is_numeric);
 }
 
 // Checks if a slice represents a positive integer.
-pub fn is_pos_int(x:&str) -> bool {
-    if !is_digits(x) { return false; }
-    if nth_char(x, 0) == '0' { return false; }
+pub fn is_pos_int(x: &str) -> bool {
+    if !is_digits(x) {
+        return false;
+    }
+    if nth_char(x, 0) == '0' {
+        return false;
+    }
     return true;
 }
 
 // Checks if a slice represents a negative integer.
-pub fn is_neg_int(x:&str) -> bool {
-    if nth_char(x, 0) != '-' { return false; }
-    if nth_char(x, 1) == '0' { return false; }
-    if !nth_char(x, 1).is_ascii_digit() { return false; }
+pub fn is_neg_int(x: &str) -> bool {
+    if nth_char(x, 0) != '-' {
+        return false;
+    }
+    if nth_char(x, 1) == '0' {
+        return false;
+    }
+    if !nth_char(x, 1).is_ascii_digit() {
+        return false;
+    }
 
     let mut y = x.to_string();
     let _ = &mut y.remove(0);
     let _ = &mut y.remove(0);
 
     let z = y.as_str();
-    if !is_digits(z) { return false; }
+    if !is_digits(z) {
+        return false;
+    }
     return true;
 }
 
 // Checks if a slice represents an integer.
-pub fn is_int(x:&str) -> bool {
+pub fn is_int(x: &str) -> bool {
     return is_pos_int(x) || x == "0" || is_neg_int(x);
 }
 
 // Checks if a slice represents a float.
-pub fn is_float(x:&str) -> bool {
+pub fn is_float(x: &str) -> bool {
     return x.parse::<f64>().is_ok();
 }
 
 // Converts a slice to an i32 integer.
-pub fn to_int(x:&str) -> i32 {
+pub fn to_int(x: &str) -> i32 {
     return x.parse::<i32>().unwrap();
 }
 
 // Converts a slice to an f64 float.
-pub fn to_float(x:&str) -> f64 {
+pub fn to_float(x: &str) -> f64 {
     return x.parse::<f64>().unwrap();
 }
 
 // Counts the number of chars in a slice.
-pub fn char_count(x:&str) -> usize {
+pub fn char_count(x: &str) -> usize {
     return x.chars().count();
 }
 
 // Counts the number of words in a slice.
-pub fn word_count(x:&str) -> usize {
+pub fn word_count(x: &str) -> usize {
     if x == "" {
         return 0;
     }
@@ -177,7 +179,7 @@ pub fn word_count(x:&str) -> usize {
 }
 
 // Counts the number of lines in a slice.
-pub fn line_count(x:&str) -> usize {
+pub fn line_count(x: &str) -> usize {
     if x == "" {
         return 0;
     }
@@ -190,7 +192,7 @@ pub fn line_count(x:&str) -> usize {
 }
 
 // Returns the nth word (zero indexed) from a slice.
-pub fn nth_word(x:&str, y:usize) -> &str {
+pub fn nth_word(x: &str, y: usize) -> &str {
     if x == "" || y >= word_count(x) {
         return "";
     }
@@ -207,7 +209,7 @@ pub fn nth_word(x:&str, y:usize) -> &str {
 }
 
 // Returns the nth line (zero indexed) from a slice.
-pub fn nth_line(x:&str, y:usize) -> &str {
+pub fn nth_line(x: &str, y: usize) -> &str {
     if x == "" || y >= line_count(x) {
         return "";
     }
@@ -224,7 +226,7 @@ pub fn nth_line(x:&str, y:usize) -> &str {
 }
 
 // Removes the nth word (zero indexed) from a slice and returns it as a string.
-pub fn remove_nth_word(x:&str, y:usize) -> String {
+pub fn remove_nth_word(x: &str, y: usize) -> String {
     if x == "" || y >= word_count(x) {
         return x.to_string();
     }
@@ -246,7 +248,7 @@ pub fn remove_nth_word(x:&str, y:usize) -> String {
 }
 
 // Removes the nth line (zero indexed) from a slice and returns it as a string.
-pub fn remove_nth_line(x:&str, y:usize) -> String {
+pub fn remove_nth_line(x: &str, y: usize) -> String {
     if x == "" || y >= line_count(x) {
         return x.to_string();
     }
@@ -268,7 +270,7 @@ pub fn remove_nth_line(x:&str, y:usize) -> String {
 }
 
 // Inserts a word at the nth position (zero indexed) of a slice and returns that as a string.
-pub fn insert_word_at(x:&str, y:&str, z:usize) -> String {
+pub fn insert_word_at(x: &str, y: &str, z: usize) -> String {
     if x == "" || y == "" || z >= word_count(x) {
         return x.to_string();
     }
@@ -292,7 +294,7 @@ pub fn insert_word_at(x:&str, y:&str, z:usize) -> String {
 }
 
 // Inserts a line at the nth position (zero indexed) of a slice and returns that as a string.
-pub fn insert_line_at(x:&str, y:&str, z:usize) -> String {
+pub fn insert_line_at(x: &str, y: &str, z: usize) -> String {
     if x == "" || y == "" || z >= line_count(x) {
         return x.to_string();
     }
@@ -316,7 +318,7 @@ pub fn insert_line_at(x:&str, y:&str, z:usize) -> String {
 }
 
 // Replaces a word at the nth position (zero indexed) of a slice and returns that as a string.
-pub fn replace_word_at(x:&str, y:&str, z:usize) -> String {
+pub fn replace_word_at(x: &str, y: &str, z: usize) -> String {
     if x == "" || y == "" || z >= word_count(x) {
         return x.to_string();
     }
@@ -341,7 +343,7 @@ pub fn replace_word_at(x:&str, y:&str, z:usize) -> String {
 }
 
 // Replaces a line at the nth position (zero indexed) of a slice and returns that as a string.
-pub fn replace_line_at(x:&str, y:&str, z:usize) -> String {
+pub fn replace_line_at(x: &str, y: &str, z: usize) -> String {
     if x == "" || y == "" || z >= line_count(x) {
         return x.to_string();
     }
@@ -366,19 +368,19 @@ pub fn replace_line_at(x:&str, y:&str, z:usize) -> String {
 }
 
 // Writes data to a file.
-pub fn write_to_file(path:&str, data:&str) {
-    fs::write(path, data).unwrap();
+pub fn write_to_file(path: &str, data: &str) {
+    std::fs::write(path, data).unwrap();
 }
 
 // Returns true if the file path exists.
-pub fn file_exists(path:&str) -> bool {
-    return metadata(path).is_ok();
+pub fn file_exists(path: &str) -> bool {
+    return std::fs::metadata(path).is_ok();
 }
 
 // Appends data to a file.
-pub fn append_to_file(path:&str, data:&str) {
+pub fn append_to_file(path: &str, data: &str) {
     if file_exists(path) {
-        let mut file = OpenOptions::new().append(true).open(path).unwrap();
+        let mut file = std::fs::OpenOptions::new().append(true).open(path).unwrap();
         file.write_all(data.as_bytes()).unwrap();
     } else {
         write_to_file(path, data);
@@ -386,17 +388,17 @@ pub fn append_to_file(path:&str, data:&str) {
 }
 
 // Deletes the file on the named path.
-pub fn delete_file(path:&str) {
+pub fn delete_file(path: &str) {
     if file_exists(path) {
-        remove_file(path).unwrap();
+        std::fs::remove_file(path).unwrap();
     }
 }
 
 // Reads data from a file into an vector of strings.
-pub fn read_to_vector(path:&str) -> Vec<String> {
+pub fn read_to_vector(path: &str) -> Vec<String> {
     let mut result: Vec<String> = Vec::new();
     if file_exists(path) {
-        let data = fs::read_to_string(path).unwrap();
+        let data = std::fs::read_to_string(path).unwrap();
 
         let lines = data.split("\n");
         for l in lines {
@@ -407,7 +409,7 @@ pub fn read_to_vector(path:&str) -> Vec<String> {
 }
 
 // Appends data from a vector of strings to a file.
-pub fn append_from_vector(v:Vec<String>, path:&str) {
+pub fn append_from_vector(v: Vec<String>, path: &str) {
     for line in v {
         append_to_file(path, line.as_str());
         append_to_file(path, "\n");
@@ -416,100 +418,109 @@ pub fn append_from_vector(v:Vec<String>, path:&str) {
 
 // Opens the virtual terminal.
 pub fn vt_open() {
-    initscr();
-    raw();
-    scrollok(stdscr(), true);
-    keypad(stdscr(), true);
+    ncurses::initscr();
+    ncurses::raw();
+    ncurses::scrollok(ncurses::stdscr(), true);
+    ncurses::keypad(ncurses::stdscr(), true);
 }
 
 // Displays a message, then closes the virtual terminal on the next user key press.
-pub fn vt_close(x:&str) {
-    addstr(x);
-    getch();
-    endwin();
+pub fn vt_close(x: &str) {
+    ncurses::addstr(x);
+    ncurses::getch();
+    ncurses::endwin();
 }
 
 // Hides the virtual cursor.
-pub fn vt_cursor_off() { curs_set(CURSOR_INVISIBLE); }
+pub fn vt_cursor_off() {
+    ncurses::curs_set(ncurses::CURSOR_VISIBILITY::CURSOR_INVISIBLE);
+}
 
 // Displays the virtual cursor.
-pub fn vt_cursor_on() { curs_set(CURSOR_VISIBLE); }
+pub fn vt_cursor_on() {
+    ncurses::curs_set(ncurses::CURSOR_VISIBILITY::CURSOR_VISIBLE);
+}
 
 // Hides user keypresses.
-pub fn vt_keypress_off() { noecho(); }
+pub fn vt_keypress_off() {
+    ncurses::noecho();
+}
 
 // Displays user keypresses.
-pub fn vt_keypress_on() { echo(); }
+pub fn vt_keypress_on() {
+    ncurses::echo();
+}
 
 // Returns the number of rows in the virtual terminal.
 pub fn vt_rows() -> i32 {
-    let mut r:i32 = 0;
-    let mut c:i32 = 0;
-    getmaxyx(stdscr(), &mut r, &mut c);
+    let mut r: i32 = 0;
+    let mut c: i32 = 0;
+    ncurses::getmaxyx(ncurses::stdscr(), &mut r, &mut c);
     return r;
 }
 
 // Returns the number of columns in the virtual terminal.
 pub fn vt_columns() -> i32 {
-    let mut r:i32 = 0;
-    let mut c:i32 = 0;
-    getmaxyx(stdscr(), &mut r, &mut c);
+    let mut r: i32 = 0;
+    let mut c: i32 = 0;
+    ncurses::getmaxyx(ncurses::stdscr(), &mut r, &mut c);
     return c;
 }
 
 // Clears the virtual terminal.
-pub fn vt_cls() { clear(); }
+pub fn vt_cls() {
+    ncurses::clear();
+}
 
 // Obtains user input as a string with no more than x chars.
 pub fn vt_input(x: i32) -> String {
     vt_keypress_on();
     let mut y = String::new();
-    getnstr(&mut y, x);
+    ncurses::getnstr(&mut y, x);
     return y;
 }
 
 // Obtains an i32 integer from a virtual terminal key press.
 pub fn vt_key_i32() -> i32 {
-    let ch = getch();
+    let ch = ncurses::getch();
     return ch;
 }
 
 // Obtains a u8 from a virtual terminal key press.
 pub fn vt_key_u8() -> u8 {
-    let ch = getch();
+    let ch = ncurses::getch();
     let ch_u8 = ch as u8;
     return ch_u8;
 }
 
 // Obtains a char from a virtual terminal key press.
 pub fn vt_key_char() -> char {
-    let ch = getch();
+    let ch = ncurses::getch();
     let ch_u8 = ch as u8;
     let ch_char = ch_u8 as char;
     return ch_char;
 }
 
 // Displays a slice in the virtual terminal.
-pub fn vt_put_slice(x:&str) {
-    addstr(x);
-    refresh();
+pub fn vt_put_slice(x: &str) {
+    ncurses::addstr(x);
+    ncurses::refresh();
 }
 
 // A helper function called by vt_menu.
-pub fn vt_render_menu(menu:&mut Vec<String>, size:usize, count:usize) {
+pub fn vt_render_menu(menu: &mut Vec<String>, size: usize, count: usize) {
     vt_cls();
     vt_put_slice("\n     ");
     vt_put_slice(&mut menu[0]);
     vt_put_slice("\n\n");
 
-    let mut n:usize = 1;
+    let mut n: usize = 1;
     while n < size {
         if n == count {
             vt_put_slice("   > ");
             vt_put_slice(&mut menu[n]);
             vt_put_slice("\n");
-        }
-        else {
+        } else {
             vt_put_slice("     ");
             vt_put_slice(&mut menu[n]);
             vt_put_slice("\n");
@@ -519,18 +530,18 @@ pub fn vt_render_menu(menu:&mut Vec<String>, size:usize, count:usize) {
 }
 
 // Returns a usize integer based on the user's selection from a menu.
-pub fn vt_menu(menu:&mut Vec<String>) -> usize {
+pub fn vt_menu(menu: &mut Vec<String>) -> usize {
     vt_keypress_off();
     vt_cursor_off();
 
-    let mut value:usize = 1;
+    let mut value: usize = 1;
     let size = menu.len();
 
     loop {
         vt_render_menu(menu, size, value);
-        let key_press = getch();
+        let key_press = ncurses::getch();
 
-        if key_press == KEY_DOWN {
+        if key_press == ncurses::KEY_DOWN {
             value += 1;
             if value == size {
                 value = 1;
@@ -538,7 +549,7 @@ pub fn vt_menu(menu:&mut Vec<String>) -> usize {
             vt_render_menu(menu, size, value);
         }
 
-        if key_press == KEY_UP {
+        if key_press == ncurses::KEY_UP {
             value -= 1;
             if value == 0 {
                 value = size - 1;
@@ -546,11 +557,11 @@ pub fn vt_menu(menu:&mut Vec<String>) -> usize {
             vt_render_menu(menu, size, value);
         }
 
-        if key_press == KEY_RIGHT {
+        if key_press == ncurses::KEY_RIGHT {
             break;
         }
 
-        if key_press == KEY_ENTER {
+        if key_press == ncurses::KEY_ENTER {
             break;
         }
 
@@ -563,18 +574,18 @@ pub fn vt_menu(menu:&mut Vec<String>) -> usize {
 }
 
 // A helper function called by vt_edit_prompt.
-pub fn vt_render_prompt(prompt:&str, buffer:&mut String, pos:usize) {
+pub fn vt_render_prompt(prompt: &str, buffer: &mut String, pos: usize) {
     vt_cls();
     let mut s = String::from(prompt);
-    for i in 0..pos { 
+    for i in 0..pos {
         let ch = nth_char(&buffer, i);
-        s.push(ch); 
+        s.push(ch);
     }
     vt_put_slice(&s);
 }
 
 // Displays a prompt to the user with an existing buffer, which can be edited to return a new buffer.
-pub fn vt_edit_prompt(prompt:&str, buffer:&mut String, max:usize) -> String {
+pub fn vt_edit_prompt(prompt: &str, buffer: &mut String, max: usize) -> String {
     let mut exit = false;
     let mut result = buffer.clone();
     let mut pos = char_count(&buffer);
@@ -583,18 +594,20 @@ pub fn vt_edit_prompt(prompt:&str, buffer:&mut String, max:usize) -> String {
     vt_render_prompt(&prompt, &mut result, pos);
 
     while !exit && pos < max {
-        let ch = getch();
+        let ch = ncurses::getch();
 
-        if ch == KEY_LEFT && pos > 0 { pos -= 1; }
-        if ch == KEY_RIGHT && res > pos { pos += 1; }
-        
+        if ch == ncurses::KEY_LEFT && pos > 0 {
+            pos -= 1;
+        }
+        if ch == ncurses::KEY_RIGHT && res > pos {
+            pos += 1;
+        }
+
         if ch == 127 && pos > 0 {
             pos -= 1;
             res -= 1;
             let _ = result.pop();
-        }
-
-        else if ch > 31 && ch < 127 {
+        } else if ch > 31 && ch < 127 {
             let ch_u8 = ch as u8;
             let ch_char = ch_u8 as char;
 
@@ -606,9 +619,9 @@ pub fn vt_edit_prompt(prompt:&str, buffer:&mut String, max:usize) -> String {
                 pos += 1;
                 res += 1;
             }
+        } else if ch == 10 {
+            exit = true;
         }
-
-        else if ch == 10 { exit = true; }
         vt_render_prompt(&prompt, &mut result, pos);
     }
 
