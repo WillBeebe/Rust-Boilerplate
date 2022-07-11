@@ -1,4 +1,5 @@
-#[macro_use] mod rbp;
+#[macro_use] 
+mod rbp;
 use rbp::*;
 
 fn main() {
