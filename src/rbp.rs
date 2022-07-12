@@ -6,7 +6,9 @@ extern crate ncurses;
 
 use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
+
 use std::io::Read;
+use std::io::Write;
 
 // Prompts the user for input and returns it as a string.
 pub fn input(prompt: &str) -> String {
