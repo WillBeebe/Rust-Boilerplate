@@ -193,16 +193,10 @@ delete_file(path: &str)
 Deletes the file on the named path.
 
 ```
-read_to_vector(path: &str) -> Vec<String>
+read_from_file(path: &str) -> Vec<String>
 ```
 
-Reads data from a file into an vector of strings.
-
-```
-append_from_vector(v: Vec<String>, path: &str)
-```
-
-Appends data from a vector of strings to a file.
+Reads data from a file into a string.
 
 ## Virtual terminal
 
