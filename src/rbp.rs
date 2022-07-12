@@ -6,7 +6,7 @@ extern crate ncurses;
 
 use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
-use std::io::Write;
+use std::io::Read;
 
 // Prompts the user for input and returns it as a string.
 pub fn input(prompt: &str) -> String {
@@ -394,26 +394,12 @@ pub fn delete_file(path: &str) {
     }
 }
 
-// Reads data from a file into an vector of strings.
-pub fn read_to_vector(path: &str) -> Vec<String> {
-    let mut result: Vec<String> = Vec::new();
-    if file_exists(path) {
-        let data = std::fs::read_to_string(path).unwrap();
-
-        let lines = data.split("\n");
-        for l in lines {
-            result.push(l.to_string());
-        }
-    }
-    return result;
-}
-
-// Appends data from a vector of strings to a file.
-pub fn append_from_vector(v: Vec<String>, path: &str) {
-    for line in v {
-        append_to_file(path, line.as_str());
-        append_to_file(path, "\n");
-    }
+// Reads from a file.
+pub fn read_from_file(path: &str) -> String {
+    let mut f = std::fs::File::open(path).unwrap();
+    let mut buffer = String::new();
+    f.read_to_string(&mut buffer).unwrap();
+    return buffer;
 }
 
 // Opens the virtual terminal.
