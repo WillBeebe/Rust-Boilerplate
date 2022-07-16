@@ -197,7 +197,7 @@ delete_file(path: &str)
 Deletes the file on the named path.
 
 ```
-read_from_file(path: &str) -> Vec<String>
+read_from_file(path: &str) -> String
 ```
 
 Reads data from a file into a string.
