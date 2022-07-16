@@ -4,6 +4,10 @@ MacOS boilerplate for Rust.
 
 <img src="menu.png" width="100%" height="auto" />
 
+## Adjustment to work properly on GNU/Linux distros
+
+Globally substitute the ascii code '127' with the macro 'KEY_BACKSPACE'.
+
 ## Terminal helpers
 
 ```
