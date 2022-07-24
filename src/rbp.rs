@@ -12,10 +12,11 @@ use std::io::Write;
 
 // Prompts the user for input and returns it as a string.
 pub fn input(prompt: &str) -> String {
-    print!("\n{}\n> ", prompt);
+    print!("\n{} > ", prompt);
     std::io::stdout().flush().unwrap();
     let mut answer = String::new();
     std::io::stdin().read_line(&mut answer).unwrap();
+    answer.pop();
     return answer;
 }
 
