@@ -123,13 +123,13 @@ line_count(x: &str) -> usize
 Counts the number of lines in a slice.
 
 ```
-nth_word(x: &str, y: usize) -> &str
+nth_word(x: &str, y: usize) -> String
 ```
 
 Returns the nth word (zero indexed) from a slice.
 
 ```
-nth_line(x: &str, y: usize) -> &str
+nth_line(x: &str, y: usize) -> String
 ```
 
 Returns the nth line (zero indexed) from a slice.
@@ -138,37 +138,37 @@ Returns the nth line (zero indexed) from a slice.
 remove_nth_word(x: &str, y: usize) -> String
 ```
 
-Removes the nth word (zero indexed) from a slice and returns it as a string.
+Removes the nth word (zero indexed) from a slice.
 
 ```
 remove_nth_line(x: &str, y: usize) -> String
 ```
 
-Removes the nth line (zero indexed) from a slice and returns it as a string.
+Removes the nth line (zero indexed) from a slice.
 
 ```
 insert_word_at(x: &str, y: &str, z: usize) -> String
 ```
 
-Inserts a word at the nth position (zero indexed) of a slice and returns that as a string.
+Inserts a word at the nth position (zero indexed) of a slice.
 
 ```
 insert_line_at(x: &str, y: &str, z: usize) -> String
 ```
 
-Inserts a line at the nth position (zero indexed) of a slice and returns that as a string.
+Inserts a line at the nth position (zero indexed) of a slice.
 
 ```
 replace_word_at(x: &str, y: &str, z: usize) -> String
 ```
 
-Replaces a word at the nth position (zero indexed) of a slice and returns that as a string.
+Replaces a word at the nth position (zero indexed) of a slice.
 
 ```
 replace_line_at(x: &str, y: &str, z: usize) -> String
 ```
 
-Replaces a line at the nth position (zero indexed) of a slice and returns that as a string.
+Replaces a line at the nth position (zero indexed) of a slice.
 
 ## File IO
 
