@@ -168,6 +168,19 @@ pub fn char_count(x: &str) -> usize {
     return x.chars().count();
 }
 
+// Counts the number of substrings in a slice, as delimited by a given char.
+pub fn delim_count(x: &str, y: char) -> usize {
+    if x == "" {
+        return 0;
+    }
+    let mut count: usize = 0;
+    let word_vec = x.split(y);
+    for _ in word_vec {
+        count += 1;
+    }
+    return count;
+}
+
 // Counts the number of words in a slice.
 pub fn word_count(x: &str) -> usize {
     if x == "" {
@@ -192,6 +205,23 @@ pub fn line_count(x: &str) -> usize {
         count += 1;
     }
     return count;
+}
+
+// Returns the nth slice (zero indexed) from a larger slice, as delimited by a given char.
+pub fn nth_slice(x: &str, y: usize, z: char) -> String {
+    if x == "" || y >= delim_count(x, z) {
+        return "".to_string();
+    }
+    let slice_vec = x.split(z);
+    let mut result = "";
+    let mut count: usize = 0;
+    for r in slice_vec {
+        if y == count {
+            result = r;
+        }
+        count += 1;
+    }
+    return result.to_string();
 }
 
 // Returns the nth word (zero indexed) from a slice.
