@@ -111,6 +111,12 @@ char_count(x: &str) -> usize
 Counts the number of chars in a slice.
 
 ```
+pub fn delim_count(x: &str, y: char) -> usize
+```
+
+Counts the number of substrings in a slice, as delimited by a given char.
+
+```
 word_count(x: &str) -> usize
 ```
 
@@ -121,6 +127,12 @@ line_count(x: &str) -> usize
 ```
 
 Counts the number of lines in a slice.
+
+```
+pub fn nth_slice(x: &str, y: usize, z: char) -> String
+```
+
+Returns the nth slice (zero indexed) from a larger slice, as delimited by a given char.
 
 ```
 nth_word(x: &str, y: usize) -> String
