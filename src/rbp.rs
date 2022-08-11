@@ -169,13 +169,13 @@ pub fn char_count(x: &str) -> usize {
 }
 
 // Counts the number of substrings in a slice, as delimited by a given char.
-pub fn delim_count(x: &str, y: char) -> usize {
+pub fn slice_count(x: &str, y: char) -> usize {
     if x == "" {
         return 0;
     }
     let mut count: usize = 0;
-    let word_vec = x.split(y);
-    for _ in word_vec {
+    let slice_vec = x.split(y);
+    for _ in slice_vec {
         count += 1;
     }
     return count;
@@ -200,8 +200,8 @@ pub fn line_count(x: &str) -> usize {
         return 0;
     }
     let mut count: usize = 0;
-    let word_vec = x.split("\n");
-    for _ in word_vec {
+    let line_vec = x.split("\n");
+    for _ in line_vec {
         count += 1;
     }
     return count;
@@ -209,7 +209,7 @@ pub fn line_count(x: &str) -> usize {
 
 // Returns the nth slice (zero indexed) from a larger slice, as delimited by a given char.
 pub fn nth_slice(x: &str, y: usize, z: char) -> String {
-    if x == "" || y >= delim_count(x, z) {
+    if x == "" || y >= slice_count(x, z) {
         return "".to_string();
     }
     let slice_vec = x.split(z);
@@ -256,148 +256,6 @@ pub fn nth_line(x: &str, y: usize) -> String {
         count += 1;
     }
     return result.to_string();
-}
-
-// Removes the nth word (zero indexed) from a slice and returns it as a string.
-pub fn remove_nth_word(x: &str, y: usize) -> String {
-    if x == "" || y >= word_count(x) {
-        return x.to_string();
-    }
-
-    let mut result = String::new();
-    let word_vec = x.split(" ");
-    let mut count: usize = 0;
-
-    for r in word_vec {
-        if y != count {
-            result.push_str(&r);
-            result.push(' ');
-        }
-        count += 1;
-    }
-
-    let _ = result.pop();
-    return result;
-}
-
-// Removes the nth line (zero indexed) from a slice and returns it as a string.
-pub fn remove_nth_line(x: &str, y: usize) -> String {
-    if x == "" || y >= line_count(x) {
-        return x.to_string();
-    }
-
-    let mut result = String::new();
-    let line_vec = x.split("\n");
-    let mut count: usize = 0;
-
-    for r in line_vec {
-        if y != count {
-            result.push_str(&r);
-            result.push('\n');
-        }
-        count += 1;
-    }
-
-    let _ = result.pop();
-    return result;
-}
-
-// Inserts a word at the nth position (zero indexed) of a slice and returns that as a string.
-pub fn insert_word_at(x: &str, y: &str, z: usize) -> String {
-    if x == "" || y == "" || z >= word_count(x) {
-        return x.to_string();
-    }
-
-    let mut result = String::new();
-    let word_vec = x.split(" ");
-    let mut count: usize = 0;
-
-    for r in word_vec {
-        if z == count {
-            result.push_str(&y);
-            result.push(' ');
-        }
-        result.push_str(&r);
-        result.push(' ');
-        count += 1;
-    }
-
-    let _ = result.pop();
-    return result;
-}
-
-// Inserts a line at the nth position (zero indexed) of a slice and returns that as a string.
-pub fn insert_line_at(x: &str, y: &str, z: usize) -> String {
-    if x == "" || y == "" || z >= line_count(x) {
-        return x.to_string();
-    }
-
-    let mut result = String::new();
-    let line_vec = x.split("\n");
-    let mut count: usize = 0;
-
-    for r in line_vec {
-        if z == count {
-            result.push_str(&y);
-            result.push('\n');
-        }
-        result.push_str(&r);
-        result.push('\n');
-        count += 1;
-    }
-
-    let _ = result.pop();
-    return result;
-}
-
-// Replaces a word at the nth position (zero indexed) of a slice and returns that as a string.
-pub fn replace_word_at(x: &str, y: &str, z: usize) -> String {
-    if x == "" || y == "" || z >= word_count(x) {
-        return x.to_string();
-    }
-
-    let mut result = String::new();
-    let word_vec = x.split(" ");
-    let mut count: usize = 0;
-
-    for r in word_vec {
-        if z == count {
-            result.push_str(&y);
-            result.push(' ');
-        } else {
-            result.push_str(&r);
-            result.push(' ');
-        }
-        count += 1;
-    }
-
-    let _ = result.pop();
-    return result;
-}
-
-// Replaces a line at the nth position (zero indexed) of a slice and returns that as a string.
-pub fn replace_line_at(x: &str, y: &str, z: usize) -> String {
-    if x == "" || y == "" || z >= line_count(x) {
-        return x.to_string();
-    }
-
-    let mut result = String::new();
-    let line_vec = x.split("\n");
-    let mut count: usize = 0;
-
-    for r in line_vec {
-        if z == count {
-            result.push_str(&y);
-            result.push('\n');
-        } else {
-            result.push_str(&r);
-            result.push('\n');
-        }
-        count += 1;
-    }
-
-    let _ = result.pop();
-    return result;
 }
 
 // Writes data to a file.
