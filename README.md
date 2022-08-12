@@ -69,37 +69,26 @@ is_digits(x: &str) -> bool
 Checks if a slice consists only of digits.
 
 ```
-is_pos_int(x: &str) -> bool
+pub fn is_i32(x: &str) -> bool
 ```
 
-Checks if a slice represents a positive integer.
+Checks if a slice represents an i32 integer.
+
 
 ```
-is_neg_int(x: &str) -> bool
+is_f64(x: &str) -> bool
 ```
 
-Checks if a slice represents a negative integer.
+Checks if a slice represents an f64 float.
 
 ```
-is_int(x: &str) -> bool
-```
-
-Checks if a slice represents an integer.
-
-```
-is_float(x: &str) -> bool
-```
-
-Checks if a slice represents a float.
-
-```
-to_int(x: &str) -> i32
+to_i32(x: &str) -> i32
 ```
 
 Converts a slice to an i32 integer.
 
 ```
-to_float(x: &str) -> f64
+to_f64(x: &str) -> f64
 ```
 
 Converts a slice to an f64 float.
