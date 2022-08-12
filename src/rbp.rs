@@ -109,57 +109,23 @@ pub fn is_digits(x: &str) -> bool {
     x.chars().all(char::is_numeric)
 }
 
-// Checks if a slice represents a positive integer.
-pub fn is_pos_int(x: &str) -> bool {
-    if !is_digits(x) {
-        return false;
-    }
-    if nth_char(x, 0) == '0' {
-        return false;
-    }
-    true
+// Checks if a slice represents an i32 integer.
+pub fn is_i32(x: &str) -> bool {
+    x.parse::<i32>().is_ok()
 }
 
-// Checks if a slice represents a negative integer.
-pub fn is_neg_int(x: &str) -> bool {
-    if nth_char(x, 0) != '-' {
-        return false;
-    }
-    if nth_char(x, 1) == '0' {
-        return false;
-    }
-    if !nth_char(x, 1).is_ascii_digit() {
-        return false;
-    }
-
-    let mut y = x.to_string();
-    let _ = &mut y.remove(0);
-    let _ = &mut y.remove(0);
-
-    let z = y.as_str();
-    if !is_digits(z) {
-        return false;
-    }
-    true
-}
-
-// Checks if a slice represents an integer.
-pub fn is_int(x: &str) -> bool {
-    is_pos_int(x) || x == "0" || is_neg_int(x)
-}
-
-// Checks if a slice represents a float.
-pub fn is_float(x: &str) -> bool {
+// Checks if a slice represents an f64 float.
+pub fn is_f64(x: &str) -> bool {
     x.parse::<f64>().is_ok()
 }
 
 // Converts a slice to an i32 integer.
-pub fn to_int(x: &str) -> i32 {
+pub fn to_i32(x: &str) -> i32 {
     x.parse::<i32>().unwrap()
 }
 
 // Converts a slice to an f64 float.
-pub fn to_float(x: &str) -> f64 {
+pub fn to_f64(x: &str) -> f64 {
     x.parse::<f64>().unwrap()
 }
 
