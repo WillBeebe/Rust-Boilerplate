@@ -17,7 +17,7 @@ pub fn input(prompt: &str) -> String {
     let mut answer = String::new();
     std::io::stdin().read_line(&mut answer).unwrap();
     answer.pop();
-    return answer;
+    answer
 }
 
 // Clears the terminal window on SOME terminal emulators.
@@ -91,7 +91,7 @@ pub fn seed() {
 
 // Generates a pseudo-random number between x and y.
 pub fn pseudo(x: i32, y: i32) -> i32 {
-    return rand::thread_rng().gen_range(x..y + 1);
+    rand::thread_rng().gen_range(x..y + 1)
 }
 
 // A macro to initialise a vector of strings.
@@ -101,12 +101,12 @@ macro_rules! vec_of_strings {
 
 // Returns the nth char (zero indexed) from a slice.
 pub fn nth_char(x: &str, n: usize) -> char {
-    return x.chars().nth(n).unwrap();
+    x.chars().nth(n).unwrap()
 }
 
 // Checks if a slice consists only of digits.
 pub fn is_digits(x: &str) -> bool {
-    return x.chars().all(char::is_numeric);
+    x.chars().all(char::is_numeric)
 }
 
 // Checks if a slice represents a positive integer.
@@ -117,7 +117,7 @@ pub fn is_pos_int(x: &str) -> bool {
     if nth_char(x, 0) == '0' {
         return false;
     }
-    return true;
+    true
 }
 
 // Checks if a slice represents a negative integer.
@@ -140,32 +140,32 @@ pub fn is_neg_int(x: &str) -> bool {
     if !is_digits(z) {
         return false;
     }
-    return true;
+    true
 }
 
 // Checks if a slice represents an integer.
 pub fn is_int(x: &str) -> bool {
-    return is_pos_int(x) || x == "0" || is_neg_int(x);
+    is_pos_int(x) || x == "0" || is_neg_int(x)
 }
 
 // Checks if a slice represents a float.
 pub fn is_float(x: &str) -> bool {
-    return x.parse::<f64>().is_ok();
+    x.parse::<f64>().is_ok()
 }
 
 // Converts a slice to an i32 integer.
 pub fn to_int(x: &str) -> i32 {
-    return x.parse::<i32>().unwrap();
+    x.parse::<i32>().unwrap()
 }
 
 // Converts a slice to an f64 float.
 pub fn to_float(x: &str) -> f64 {
-    return x.parse::<f64>().unwrap();
+    x.parse::<f64>().unwrap()
 }
 
 // Counts the number of chars in a slice.
 pub fn char_count(x: &str) -> usize {
-    return x.chars().count();
+    x.chars().count()
 }
 
 // Counts the number of substrings in a slice, as delimited by a given char.
@@ -178,7 +178,7 @@ pub fn slice_count(x: &str, y: char) -> usize {
     for _ in slice_vec {
         count += 1;
     }
-    return count;
+    count
 }
 
 // Counts the number of words in a slice.
@@ -191,7 +191,7 @@ pub fn word_count(x: &str) -> usize {
     for _ in word_vec {
         count += 1;
     }
-    return count;
+    count
 }
 
 // Counts the number of lines in a slice.
@@ -204,7 +204,7 @@ pub fn line_count(x: &str) -> usize {
     for _ in line_vec {
         count += 1;
     }
-    return count;
+    count
 }
 
 // Returns the nth slice (zero indexed) from a larger slice, as delimited by a given char.
@@ -221,7 +221,7 @@ pub fn nth_slice(x: &str, y: usize, z: char) -> String {
         }
         count += 1;
     }
-    return result.to_string();
+    result.to_string()
 }
 
 // Returns the nth word (zero indexed) from a slice.
@@ -238,7 +238,7 @@ pub fn nth_word(x: &str, y: usize) -> String {
         }
         count += 1;
     }
-    return result.to_string();
+    result.to_string()
 }
 
 // Returns the nth line (zero indexed) from a slice.
@@ -255,7 +255,12 @@ pub fn nth_line(x: &str, y: usize) -> String {
         }
         count += 1;
     }
-    return result.to_string();
+    result.to_string()
+}
+
+// Removes all empty strings from a vector of strings.
+pub fn yeet_empty_tokens(v: Vec<String>) -> Vec<String> {
+    v.into_iter().filter(|n| n.len() != 0).collect::<Vec<_>>()
 }
 
 // Writes data to a file.
@@ -265,7 +270,7 @@ pub fn write_to_file(path: &str, data: &str) {
 
 // Returns true if the file path exists.
 pub fn file_exists(path: &str) -> bool {
-    return std::fs::metadata(path).is_ok();
+    std::fs::metadata(path).is_ok()
 }
 
 // Appends data to a file.
@@ -290,7 +295,7 @@ pub fn read_from_file(path: &str) -> String {
     let mut f = std::fs::File::open(path).unwrap();
     let mut buffer = String::new();
     f.read_to_string(&mut buffer).unwrap();
-    return buffer;
+    buffer
 }
 
 // Opens the virtual terminal.
@@ -333,7 +338,7 @@ pub fn vt_rows() -> i32 {
     let mut r: i32 = 0;
     let mut c: i32 = 0;
     ncurses::getmaxyx(ncurses::stdscr(), &mut r, &mut c);
-    return r;
+    r
 }
 
 // Returns the number of columns in the virtual terminal.
@@ -341,7 +346,7 @@ pub fn vt_columns() -> i32 {
     let mut r: i32 = 0;
     let mut c: i32 = 0;
     ncurses::getmaxyx(ncurses::stdscr(), &mut r, &mut c);
-    return c;
+    c
 }
 
 // Clears the virtual terminal.
@@ -352,7 +357,7 @@ pub fn vt_cls() {
 // Obtains an i32 integer from a virtual terminal key press.
 pub fn vt_key_i32() -> i32 {
     let ch = ncurses::getch();
-    return ch;
+    ch
 }
 
 // Obtains user input as a string with no more than x chars.
@@ -360,7 +365,7 @@ pub fn vt_input(x: i32) -> String {
     vt_keypress_on();
     let mut y = String::new();
     ncurses::getnstr(&mut y, x);
-    return y;
+    y
 }
 
 // Displays a slice in the virtual terminal.
@@ -432,7 +437,7 @@ pub fn vt_menu(menu: &mut Vec<String>) -> usize {
         }
     }
 
-    return value;
+    value
 }
 
 // A helper function called by vt_edit_prompt.
@@ -487,5 +492,5 @@ pub fn vt_edit_prompt(prompt: &str, buffer: &mut String, max: usize) -> String {
         vt_render_prompt(&prompt, &mut result, pos);
     }
 
-    return result;
+    result
 }
