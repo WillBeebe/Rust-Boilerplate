@@ -69,11 +69,10 @@ is_digits(x: &str) -> bool
 Checks if a slice consists only of digits.
 
 ```
-pub fn is_i32(x: &str) -> bool
+is_i32(x: &str) -> bool
 ```
 
 Checks if a slice represents an i32 integer.
-
 
 ```
 is_f64(x: &str) -> bool
@@ -100,7 +99,7 @@ char_count(x: &str) -> usize
 Counts the number of chars in a slice.
 
 ```
-pub fn slice_count(x: &str, y: char) -> usize
+slice_count(x: &str, y: char) -> usize
 ```
 
 Counts the number of substrings in a slice, as delimited by a given char.
@@ -118,7 +117,7 @@ line_count(x: &str) -> usize
 Counts the number of lines in a slice.
 
 ```
-pub fn nth_slice(x: &str, y: usize, z: char) -> String
+nth_slice(x: &str, y: usize, z: char) -> String
 ```
 
 Returns the nth slice (zero indexed) from a larger slice, as delimited by a given char.
@@ -136,7 +135,7 @@ nth_line(x: &str, y: usize) -> String
 Returns the nth line (zero indexed) from a slice.
 
 ```
-pub fn yeet_empty_tokens(v: Vec<String>) -> Vec<String>
+yeet_empty_tokens(v: Vec<String>) -> Vec<String>
 ```
 
 Removes all empty strings from a vector of strings.
