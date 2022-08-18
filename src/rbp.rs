@@ -224,11 +224,6 @@ pub fn nth_line(x: &str, y: usize) -> String {
     result.to_string()
 }
 
-// Removes all empty strings from a vector of strings.
-pub fn yeet_empty_tokens(v: Vec<String>) -> Vec<String> {
-    v.into_iter().filter(|n| n.len() != 0).collect::<Vec<_>>()
-}
-
 // Writes data to a file.
 pub fn write_to_file(path: &str, data: &str) {
     std::fs::write(path, data).unwrap();
