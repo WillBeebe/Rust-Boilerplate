@@ -134,12 +134,6 @@ nth_line(x: &str, y: usize) -> String
 
 Returns the nth line (zero indexed) from a slice.
 
-```
-yeet_empty_tokens(v: Vec<String>) -> Vec<String>
-```
-
-Removes all empty strings from a vector of strings.
-
 ## File IO
 
 ```
