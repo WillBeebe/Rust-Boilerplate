@@ -81,6 +81,12 @@ is_f64(x: &str) -> bool
 Checks if a slice represents an f64 float.
 
 ```
+is_number(x: &str) -> bool 
+```
+
+Like the "is_f64" function, but with additional format restrictions.
+
+```
 to_i32(x: &str) -> i32
 ```
 
@@ -91,12 +97,6 @@ to_f64(x: &str) -> f64
 ```
 
 Converts a slice to an f64 float.
-
-```
-is_number(x: &str) -> bool 
-```
-
-Like the "is_f64" function, but with additional format restrictions.
 
 ```
 char_count(x: &str) -> usize
