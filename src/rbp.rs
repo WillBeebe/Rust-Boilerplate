@@ -119,6 +119,27 @@ pub fn is_f64(x: &str) -> bool {
     x.parse::<f64>().is_ok()
 }
 
+// Like the "is_f64" function, but with additional format restrictions
+pub fn is_number(x: &str) -> bool {
+    if !is_f64(x) {
+        return false;
+    }
+
+    if nth_char(x, 0) == '+' {
+        return false;
+    }
+
+    if x.len() > 1 && nth_char(x, 0) == '0' {
+        return false;
+    }
+
+    if x.len() > 1 && nth_char(x, 0) == '-' && nth_char(x, 1) == '0' {
+        return false;
+    }
+
+    true
+}
+
 // Converts a slice to an i32 integer.
 pub fn to_i32(x: &str) -> i32 {
     x.parse::<i32>().unwrap()
