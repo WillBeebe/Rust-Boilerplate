@@ -8,6 +8,20 @@ MacOS boilerplate for Rust.
 
 Globally substitute the ascii code '127' with the macro 'KEY_BACKSPACE'.
 
+## Macros
+
+```
+compr!
+```
+
+A list comprehension macro.
+
+```
+vec_of_strings!
+```
+
+A vector initialisation macro.
+
 ## Terminal helpers
 
 ```
@@ -49,12 +63,6 @@ pseudo(x: i32, y: i32) -> i32
 Generates a pseudo-random number between x and y.
 
 ## Strings and chars
-
-```
-vec_of_strings!
-```
-
-A macro to initialise a vector of strings.
 
 ```
 nth_char(x: &str, n: usize) -> char
