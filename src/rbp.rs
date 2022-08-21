@@ -112,6 +112,11 @@ pub fn pseudo(x: i32, y: i32) -> i32 {
     rand::thread_rng().gen_range(x..y + 1)
 }
 
+// Removes all empty strings from a vector of strings.
+pub fn remove_null_tokens(v: Vec<String>) -> Vec<String> {
+    v.into_iter().filter(|n| n != "").collect::<Vec<_>>()
+}
+
 // Returns the nth char (zero indexed) from a slice.
 pub fn nth_char(x: &str, n: usize) -> char {
     x.chars().nth(n).unwrap()
