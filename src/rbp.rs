@@ -10,6 +10,24 @@ use rand::{Rng, SeedableRng};
 use std::io::Read;
 use std::io::Write;
 
+// List comprehension macro
+macro_rules! compr {
+    ($id1:ident | $id2:ident <- [$start:expr ; $end:expr] , $cond:expr) => {{
+        let mut vec = Vec::new();
+        for num in $start..=$end {
+            if $cond(num) {
+                vec.push(num);
+            }
+        }
+        vec
+    }};
+}
+
+// Vector initialisation macro
+macro_rules! vec_of_strings {
+    ($($x:expr),*) => (vec![$($x.to_string()),*]);
+}
+
 // Prompts the user for input and returns it as a string.
 pub fn input(prompt: &str) -> String {
     print!("\n{} > ", prompt);
@@ -92,11 +110,6 @@ pub fn seed() {
 // Generates a pseudo-random number between x and y.
 pub fn pseudo(x: i32, y: i32) -> i32 {
     rand::thread_rng().gen_range(x..y + 1)
-}
-
-// A macro to initialise a vector of strings.
-macro_rules! vec_of_strings {
-    ($($x:expr),*) => (vec![$($x.to_string()),*]);
 }
 
 // Returns the nth char (zero indexed) from a slice.
