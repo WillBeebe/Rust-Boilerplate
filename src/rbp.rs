@@ -113,7 +113,7 @@ pub fn pseudo(x: i32, y: i32) -> i32 {
 }
 
 // Removes all empty strings from a vector of strings.
-pub fn remove_null_tokens(v: Vec<String>) -> Vec<String> {
+pub fn remove_null_strings(v: Vec<String>) -> Vec<String> {
     v.into_iter().filter(|n| n != "").collect::<Vec<_>>()
 }
 
