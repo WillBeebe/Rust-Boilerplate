@@ -65,7 +65,7 @@ Generates a pseudo-random number between x and y.
 ## Strings and chars
 
 ```
-remove_null_tokens(v: Vec<String>) -> Vec<String>
+remove_null_strings(v: Vec<String>) -> Vec<String>
 ```
 
 Removes all empty strings from a vector of strings.
