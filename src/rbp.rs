@@ -158,6 +158,11 @@ pub fn is_number(x: &str) -> bool {
     true
 }
 
+// Returns the type of variable T.
+pub fn type_of<T>(_: &T) -> String {
+    format!("{}", std::any::type_name::<T>())
+}
+
 // Converts a slice to an i32 integer.
 pub fn to_i32(x: &str) -> i32 {
     x.parse::<i32>().unwrap()
