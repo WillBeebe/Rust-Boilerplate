@@ -101,6 +101,12 @@ is_number(x: &str) -> bool
 Like the "is_f64" function, but with additional format restrictions.
 
 ```
+type_of<T>(_: &T) -> String
+```
+
+Returns the type of variable T.
+
+```
 to_i32(x: &str) -> i32
 ```
 
