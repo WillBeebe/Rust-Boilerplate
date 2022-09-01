@@ -43,6 +43,11 @@ pub fn cls() {
     print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
 }
 
+// Returns the type of variable T.
+pub fn type_of<T>(_: &T) -> String {
+    format!("{}", std::any::type_name::<T>())
+}
+
 // Executes slices as unix shell commands.
 pub fn unix_shell(x: &str) {
     let mut commands = x.trim().split(" | ").peekable();
@@ -156,11 +161,6 @@ pub fn is_number(x: &str) -> bool {
     }
 
     true
-}
-
-// Returns the type of variable T.
-pub fn type_of<T>(_: &T) -> String {
-    format!("{}", std::any::type_name::<T>())
 }
 
 // Converts a slice to an i32 integer.
