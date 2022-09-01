@@ -36,6 +36,12 @@ cls()
 
 Clears the terminal window on some terminal emulators.
 
+```
+type_of<T>(_: &T) -> String
+```
+
+Returns the type of variable T.
+
 e.g. does not work with the Intellij terminal.
 
 ```
@@ -99,12 +105,6 @@ is_number(x: &str) -> bool
 ```
 
 Like the "is_f64" function, but with additional format restrictions.
-
-```
-type_of<T>(_: &T) -> String
-```
-
-Returns the type of variable T.
 
 ```
 to_i32(x: &str) -> i32
