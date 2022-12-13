@@ -36,13 +36,13 @@ cls()
 
 Clears the terminal window on some terminal emulators.
 
+e.g. does not work with the Intellij terminal.
+
 ```
 type_of<T>(_: &T) -> String
 ```
 
 Returns the type of variable T.
-
-e.g. does not work with the Intellij terminal.
 
 ```
 unix_shell(x: &str)
